@@ -2,6 +2,8 @@ import axios from 'axios'
 import Worker from './Worker.js'
 import CustomEvent from 'custom-event'
 
+let firstLoadDone = false;
+
 const trackedMatrix = {
   // for interpolation
   delta: [
@@ -56,6 +58,10 @@ export default class Utils {
       document.dispatchEvent(setWindowSizeEvent)
 
       worker = new Worker()
+      const arFrame = document.getElementById('ar-frame');
+      if(!arFrame){
+        console.error('AR Frame not found');
+      }
 
       worker.postMessage({
         type: 'load',
@@ -91,9 +97,15 @@ export default class Utils {
               // removing loader page if present
               const loader = document.getElementById('loading')
               if (loader) {
-                loader.querySelector('.loading-text').innerText = 'Start the tracking!'
+                loader.querySelector('.loading-text').innerText = 'Enjoy this Mazing Xperience!'
+
+
                 setTimeout(function () {
                   loader.parentElement.removeChild(loader)
+                  if(arFrame){
+                    arFrame.style.display = 'block';
+                    firstLoadDone = true;
+                  }
                 }, 2000)
               }
             }
@@ -103,13 +115,20 @@ export default class Utils {
             const nft = JSON.parse(msg.nft)
             const nftEvent = new CustomEvent('getNFTData', { detail: { dpi: nft.dpi, width: nft.width, height: nft.height } })
             document.dispatchEvent(nftEvent)
+
             break
           }
           case 'found': {
+            if(arFrame){
+              arFrame.style.display = 'none';
+            }
             found(msg)
             break
           }
           case 'not found': {
+            if(arFrame && firstLoadDone){
+              arFrame.style.display = 'block';
+            }
             found(null)
             break
           }
@@ -127,6 +146,7 @@ export default class Utils {
           world = null
           const nftTrackingLostEvent = new CustomEvent('nftTrackingLost')
           document.dispatchEvent(nftTrackingLostEvent)
+
         }
       } else {
         world = JSON.parse(msg.matrixGL_RH)

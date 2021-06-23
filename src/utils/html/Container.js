@@ -17,7 +17,7 @@ export default class Container {
       document.body.insertBefore(container, loading)
       var containerEvent = new CustomEvent('containerEvent')
       document.dispatchEvent(containerEvent)
-      return { container: container, canvas: canvas, video: video }   
+      return { container: container, canvas: canvas, video: video }
     } else {
       const container = document.getElementById(configData.container.containerName)
       const canvas = document.getElementById(configData.container.canvasName)
@@ -61,7 +61,7 @@ export default class Container {
       logo.src = configData.loading.logo.src
       logo.alt = configData.loading.logo.alt
       const loadingMessage = document.createElement('span')
-      loadingMessage.setAttribute('class', 'loading-text')
+      loadingMessage.setAttribute('class', 'loading-text-override loading-text')
       loadingMessage.innerText = configData.loading.loadingMessage
       loader.appendChild(logo)
       loader.appendChild(loadingMessage)

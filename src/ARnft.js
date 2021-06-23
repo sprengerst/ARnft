@@ -14,11 +14,11 @@ export default class ARnft {
     this.listeners = {}
     this.uuid = uuidv4()
     this.version = version
-    console.log('ARnft ', this.version)
+    console.log('MazingTracker ', this.version)
   }
 
   _initialize (markerUrl, stats, camera) {
-    console.log('ARnft init() %cstart...', 'color: yellow; background-color: blue; border-radius: 4px; padding: 2px')
+    console.log('MazingTracker init() %cstart...', 'color: yellow; background-color: blue; border-radius: 4px; padding: 2px')
     const root = this.root
     const config = this.config
     let data

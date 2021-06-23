@@ -2,7 +2,7 @@ export default class CameraViewRenderer {
     static async getUserMedia (configData) {
         const video = document.getElementById('video')
         const facing = configData.videoSettings.facingMode || 'environment'
-        const onError = configData.onError || ((err) => { console.error('ARnft internal getUserMedia', err) })
+        const onError = configData.onError || ((err) => { console.error('MazingTrack internal getUserMedia', err) })
         let stream = null
         const constraints = {}
         const mediaDevicesConstraints = {}
@@ -33,7 +33,7 @@ export default class CameraViewRenderer {
             constraints.maxWidth = configData.videoSettings.width
           }
         }
-    
+
         if (configData.videoSettings.height) {
           mediaDevicesConstraints.height = configData.videoSettings.height
           if (typeof configData.videoSettings.height === 'object') {
@@ -47,16 +47,16 @@ export default class CameraViewRenderer {
             constraints.maxHeight = configData.videoSettings.height
           }
         }
-    
+
         mediaDevicesConstraints.facingMode = facing
         mediaDevicesConstraints.deviceId = configData.videoSettings.deviceId
-    
+
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia
         const hdConstraints = {
           audio: false,
           video: constraints
         }
-    
+
         if (navigator.mediaDevices || window.MediaStreamTrack.getSources) {
           if (navigator.mediaDevices) {
             try {
@@ -99,7 +99,7 @@ export default class CameraViewRenderer {
             onError('navigator.getUserMedia is not supported on your browser')
           }
         }
-    
+
         return new Promise(resolve => {
           video.onloadedmetadata = () => {
             resolve(video)
